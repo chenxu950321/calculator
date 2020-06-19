@@ -408,16 +408,16 @@
 		// 	    }
 
 	// 第六次改进--模块化
-		// (function () {
-		// 	// 获取元素
-		//     var wrapElem = document.querySelector('#calculator');
-		//     var calculatorElem = {
-		//     	formerInput: wrapElem.querySelector('.formerInput'),
-		//     	laterInput: wrapElem.querySelector('.laterInput'),
-		//     	sign: wrapElem.querySelector('.sign'),
-		//     	resultOutput: wrapElem.querySelector('.resultOutput'),
-		//     	btns: wrapElem.querySelectorAll('.btn')
-		//     };
+		 (function () {
+		 	// 获取元素
+		     var wrapElem = document.querySelector('#calculator');
+		     var calculatorElem = {
+			   	formerInput: wrapElem.querySelector('.formerInput'),
+		     	laterInput: wrapElem.querySelector('.laterInput'),
+		     	sign: wrapElem.querySelector('.sign'),
+		     	resultOutput: wrapElem.querySelector('.resultOutput'),
+		     	btns: wrapElem.querySelectorAll('.btn')
+		     };
 
 		    // 绑定事件
 		    each(calculatorElem.btns, function (index, elem	) {
@@ -429,74 +429,136 @@
 		    
 
 
-		//     // 遍历
-		//     function each(array, fn) {
-		//     	for (var i = 0; i < array.length; i++) {
-		//     		fn(i, array[i]);
-		//     	}
-		//     }
+		
+		     // 遍历
+		
+		     function each(array, fn) {
+		
+		     	for (var i = 0; i < array.length; i++) {
+		
+		     		fn(i, array[i]);
+		
+		     	}
+		
+		     
+			 
+		
+		     // 更新符号
+		
+		     function updateSign(symbol) {
+		
+		     	calculatorElem.sign.innerHTML = symbol;
+		
+		     
+			 
+		
+		     // 运算
+		
+		     var operate = (function () {
+		
+		     		var operation = {
+		
+		 		    	add: function(num1, num2) {
+		
+		 			    	return +num1 + +num2;
+		
+		 			    },
+		
+		 			subtract: function(num1, num2) {
+		
+		 			    	return num1 - num2;
+		
+		 			    },
+		
+		 			multiply: function(num1, num2) {
+		
+		 			    	return num1 * num2;
+		
+		 			    },
+		
+		 			divide: function(num1, num2) {
+		
+		 			    	return num1 / num2;
+		
+		 		   	 },
+		
+		 		   	 addOperation: function (name, fn) {
+		
+		 		   	 	if (!operation[name]) {
+		
+		 		   	 		operation[name] = fn;
+		
+		 		   	 	}
+		
+		 		   	 	return operation;
+		
+		 		   	 }
+		
+		 	    }
+				 
+		
+		     	// 	function operate(name, num1, num2) {
+		
+		 	    // 		if (!operation[name]) throw new Error('不存在名为' + name + '的运算方法！');
+		
+		 	    // 		return operation[name](num1, num2);
+		
+		 	    // }
+		
+		 	    function operate(name) {
+		
+		 	    		if (!operation[name]) throw new Error('不存在名为' + name + '的运算方法！');
+		
+		 	    		return operation[name].apply(operation, [].slice.call(arguments, 1, arguments.length));
+		
+		 	    }
+		
+		 	    operate.addOperation = operation.addOperation
+				 
+		
+		 	    return operate;
+		
+		 	    // return function (name, num1, num2) {
+		
+		 	    // 		if (!operation[name]) throw new Error('不存在名为' + name + '的运算方法！');
+		
+		 	    // 		return operation[name](num1, num2);
+		
+		 	    // };
 
-		//     // 更新符号
-		//     function updateSign(symbol) {
-		//     	calculatorElem.sign.innerHTML = symbol;
-		//     }
-
-		//     // 运算
-		//     var operate = (function () {
-		//     		var operation = {
-		// 		    	add: function(num1, num2) {
-		// 			    	return +num1 + +num2;
-		// 			    },
-		// 			subtract: function(num1, num2) {
-		// 			    	return num1 - num2;
-		// 			    },
-		// 			multiply: function(num1, num2) {
-		// 			    	return num1 * num2;
-		// 			    },
-		// 			divide: function(num1, num2) {
-		// 			    	return num1 / num2;
-		// 		   	 },
-		// 		   	 addOperation: function (name, fn) {
-		// 		   	 	if (!operation[name]) {
-		// 		   	 		operation[name] = fn;
-		// 		   	 	}
-		// 		   	 	return operation;
-		// 		   	 }
-		// 	    };
-
-		//     	// 	function operate(name, num1, num2) {
-		// 	    // 		if (!operation[name]) throw new Error('不存在名为' + name + '的运算方法！');
-		// 	    // 		return operation[name](num1, num2);
-		// 	    // }
-		// 	    function operate(name) {
-		// 	    		if (!operation[name]) throw new Error('不存在名为' + name + '的运算方法！');
-		// 	    		return operation[name].apply(operation, [].slice.call(arguments, 1, arguments.length));
-		// 	    }
-		// 	    operate.addOperation = operation.addOperation;
-
-		// 	    return operate;
-		// 	    // return function (name, num1, num2) {
-		// 	    // 		if (!operation[name]) throw new Error('不存在名为' + name + '的运算方法！');
-		// 	    // 		return operation[name](num1, num2);
-		// 	    // };
-			    
-		//     })();
-
-		    
-		    
-		//     operate.addOperation('mod', function (num1, num2) {
-		//     	return num1 % num2;
-		//     }).addOperation('power', function (base, power) {
-		//     	return Math.pow(base, power);
-		//     }).addOperation('invert', function (num) {
-		//     	return 1 / num;
-		//     });
-
-		//     // 输出结果
-		//     function outputResult(result) {
-		//     	calculatorElem.resultOutput.innerHTML = result;
-		//     }
-		// })();
+	    
+		
+		     })()
+			 
+	
+	  
+	
+	  
+		
+		     operate.addOperation('mod', function (num1, num2) {
+		
+		     	return num1 % num2;
+		
+		     }).addOperation('power', function (base, power) {
+		
+		     	return Math.pow(base, power);
+		
+		     }).addOperation('invert', function (num) {
+		
+		     	return 1 / num;
+		
+		     })
+			 
+		
+		     // 输出结果
+		
+		     function outputResult(result) {
+		
+		     	calculatorElem.resultOutput.innerHTML = result;
+		
+		     }
+		
+		 })();
 
 	// 第七次改进
 	  
